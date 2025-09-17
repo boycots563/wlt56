@@ -1,4 +1,3 @@
-New chat
 @echo off
 :: Check if the script is running with administrator privileges
 NET SESSION >nul 2>&1

